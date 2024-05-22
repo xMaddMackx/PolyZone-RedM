@@ -3,28 +3,28 @@ local function handleInput(useZ, heading, length, width, center)
     local scaleDelta, headingDelta = 0.2, 5
     BlockWeaponWheelThisFrame()
 
-    if IsDisabledControlPressed(0, 36) then -- ctrl held down
+    if IsDisabledControlPressed(0, 0xDB096B85) then -- ctrl held down
       scaleDelta, headingDelta = 0.05, 1
     end
 
-    if IsDisabledControlJustPressed(0, 81) then -- scroll wheel down just pressed
+    if IsDisabledControlJustPressed(0, 0x3076E97C) then -- scroll wheel down just pressed
 
-      if IsDisabledControlPressed(0, 19) then -- alt held down
+      if IsDisabledControlPressed(0, 0x8AAA0AD4) then -- alt held down
         return heading, length, math.max(0.0, width - scaleDelta), center
       end
-      if IsDisabledControlPressed(0, 21) then -- shift held down
+      if IsDisabledControlPressed(0, 0x8FFC75D6) then -- shift held down
         return heading, math.max(0.0, length - scaleDelta), width, center
       end
       return (heading - headingDelta) % 360, length, width, center
     end
 
 
-    if IsDisabledControlJustPressed(0, 99) then -- scroll wheel up just pressed
+    if IsDisabledControlJustPressed(0, 0x3076E97C) then -- scroll wheel up just pressed
 
-      if IsDisabledControlPressed(0, 19) then -- alt held down
+      if IsDisabledControlPressed(0, 0x8AAA0AD4) then -- alt held down
         return heading, length, math.max(0.0, width + scaleDelta), center
       end
-      if IsDisabledControlPressed(0, 21) then -- shift held down
+      if IsDisabledControlPressed(0, 0x8FFC75D6) then -- shift held down
         return heading, math.max(0.0, length + scaleDelta), width, center
       end
       return (heading + headingDelta) % 360, length, width, center
@@ -40,29 +40,29 @@ end
 function handleZ(minZ, maxZ)
   local delta = 0.2
 
-  if IsDisabledControlPressed(0, 36) then -- ctrl held down
+  if IsDisabledControlPressed(0, 0xDB096B85) then -- ctrl held down
     delta = 0.05
   end
 
   BlockWeaponWheelThisFrame()
 
-  if IsDisabledControlJustPressed(0, 81) then -- scroll wheel down just pressed
+  if IsDisabledControlJustPressed(0, 0x3076E97C) then -- scroll wheel down just pressed
 
-    if IsDisabledControlPressed(0, 19) then -- alt held down
+    if IsDisabledControlPressed(0, 0x8AAA0AD4) then -- alt held down
       return minZ - delta, maxZ
     end
-    if IsDisabledControlPressed(0, 21) then -- shift held down
+    if IsDisabledControlPressed(0, 0x8FFC75D6) then -- shift held down
       return minZ, maxZ - delta
     end
     return minZ - delta, maxZ - delta
   end
 
-  if IsDisabledControlJustPressed(0, 99) then -- scroll wheel up just pressed
+  if IsDisabledControlJustPressed(0, 0x3076E97C) then -- scroll wheel up just pressed
 
-    if IsDisabledControlPressed(0, 19) then -- alt held down
+    if IsDisabledControlPressed(0, 0x8AAA0AD4) then -- alt held down
       return minZ + delta, maxZ
     end
-    if IsDisabledControlPressed(0, 21) then -- shift held down
+    if IsDisabledControlPressed(0, 0x8FFC75D6) then -- shift held down
       return minZ, maxZ + delta
     end
     return minZ + delta, maxZ + delta
@@ -84,7 +84,7 @@ function boxStart(name, heading, length, width, minHeight, maxHeight)
   end
   Citizen.CreateThread(function()
     while createdZone do
-      if IsDisabledControlJustPressed(0, 20) then -- Z pressed
+      if IsDisabledControlJustPressed(0, 0x26E9DC00) then -- Z pressed
         useZ = not useZ
         if useZ then
           createdZone.debugColors.walls = {255, 0, 0}
