@@ -29,26 +29,26 @@ end
 function handleArrowInput(center, heading)
   delta = 0.05
 
-  if IsDisabledControlPressed(0, 36) then -- ctrl held down
+  if IsDisabledControlPressed(0, 0xDB096B85) then -- ctrl held down
     delta = 0.01
   end
 
-  if IsDisabledControlPressed(0, 172) then -- arrow up
+  if IsDisabledControlPressed(0, 0x6319DB71) then -- arrow up
     local newCenter =  PolyZone.rotate(center.xy, vector2(center.x, center.y + delta), heading)
     return vector3(newCenter.x, newCenter.y, center.z)
   end
 
-  if IsDisabledControlPressed(0, 173) then -- arrow down
+  if IsDisabledControlPressed(0, 0x05CA7C52) then -- arrow down
     local newCenter =  PolyZone.rotate(center.xy, vector2(center.x, center.y - delta), heading)
     return vector3(newCenter.x, newCenter.y, center.z)
   end
 
-  if IsDisabledControlPressed(0, 174) then -- arrow left
+  if IsDisabledControlPressed(0, 0xA65EBAB4) then -- arrow left
     local newCenter =  PolyZone.rotate(center.xy, vector2(center.x - delta, center.y), heading)
     return vector3(newCenter.x, newCenter.y, center.z)
   end
 
-  if IsDisabledControlPressed(0, 175) then -- arrow right
+  if IsDisabledControlPressed(0, 0xDEB34313) then -- arrow right
     local newCenter =  PolyZone.rotate(center.xy, vector2(center.x + delta, center.y), heading)
     return vector3(newCenter.x, newCenter.y, center.z)
   end
@@ -59,16 +59,16 @@ end
 function disableControlKeyInput()
   Citizen.CreateThread(function()
     while drawZone do
-      DisableControlAction(0, 36, true)   -- Ctrl
-      DisableControlAction(0, 19, true)   -- Alt
-      DisableControlAction(0, 20, true)   -- 'Z'
-      DisableControlAction(0, 21, true)   -- Shift
-      DisableControlAction(0, 81, true)   -- Scroll Wheel Down
-      DisableControlAction(0, 99, true)   -- Scroll Wheel Up
-      DisableControlAction(0, 172, true)  -- Arrow Up
-      DisableControlAction(0, 173, true)  -- Arrow Down
-      DisableControlAction(0, 174, true)  -- Arrow Left
-      DisableControlAction(0, 175, true)  -- Arrow Right
+      DisableControlAction(0, 0xDB096B85, true)   -- Ctrl
+      DisableControlAction(0, 0x8AAA0AD4, true)   -- Alt
+      DisableControlAction(0, 0x26E9DC00, true)   -- 'Z'
+      DisableControlAction(0, 0x8FFC75D6, true)   -- Shift
+      DisableControlAction(0, 0x3076E97C, true)   -- Scroll Wheel Down
+      DisableControlAction(0, 0x3076E97C, true)   -- Scroll Wheel Up
+      DisableControlAction(0, 0x6319DB71, true)  -- Arrow Up
+      DisableControlAction(0, 0x05CA7C52, true)  -- Arrow Down
+      DisableControlAction(0, 0xA65EBAB4, true)  -- Arrow Left
+      DisableControlAction(0, 0xDEB34313, true)  -- Arrow Right
       Wait(0)
     end
   end)
