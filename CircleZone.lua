@@ -1,98 +1,54 @@
-CircleZone = {}
--- Inherits from PolyZone
-setmetatable(CircleZone, { __index = PolyZone })
+local function handleInput(radius, center, useZ)
+  local delta = 0.05
+  BlockWeaponWheelThisFrame()
 
-function CircleZone:draw(forceDraw)
-  if not forceDraw and not self.debugPoly then return end
-  local center = self.center
-  local debugColor = self.debugColor
-  local r, g, b = debugColor[1], debugColor[2], debugColor[3]
-  if self.useZ then
-    local radius = self.radius
-    DrawMarker(28, center.x, center.y, center.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, radius, radius, radius, r, g, b, 48, false, false, 2, nil, nil, false)
-  else
-    local diameter = self.diameter
-    DrawMarker(1, center.x, center.y, -200.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, diameter, diameter, 400.0, r, g, b, 96, false, false, 2, nil, nil, false)
+  if IsDisabledControlPressed(0, 0xDB096B85) then -- ctrl held down
+    delta = 0.01
   end
+
+  if IsDisabledControlJustPressed(0, 0x3076E97C) then -- scroll wheel down just pressed
+
+    if IsDisabledControlPressed(0, 0x8AAA0AD4) then -- alt held down
+      return radius, vector3(center.x, center.y, center.z - delta), useZ
+    end
+    return math.max(0.0, radius - delta), center, useZ
+  end
+
+
+  if IsDisabledControlJustPressed(0, 0x3076E97C) then -- scroll wheel up just pressed
+
+    if IsDisabledControlPressed(0, 0x8AAA0AD4) then -- alt held down
+      return radius, vector3(center.x, center.y, center.z + delta), useZ
+    end
+    return radius + delta, center, useZ
+  end
+
+  if IsDisabledControlJustPressed(0, 0x26E9DC00) then -- Z pressed
+    return radius, center, not useZ
+  end
+
+  local rot = GetGameplayCamRot(2)
+  center = handleArrowInput(center, rot.z)
+
+  return radius, center, useZ
 end
 
-
-local function _initDebug(zone, options)
-  if options.debugBlip then zone:addDebugBlip() end
-  if not options.debugPoly then
-    return
-  end
-
+function circleStart(name, radius, useZ)
+  local center = GetEntityCoords(PlayerPedId())
+  useZ = useZ or false
+  createdZone = CircleZone:Create(center, radius, {name = tostring(name), useZ = useZ})
   Citizen.CreateThread(function()
-    while not zone.destroyed do
-      zone:draw(false)
-      Citizen.Wait(0)
+    while createdZone do
+      radius, center, useZ = handleInput(radius, center, useZ)
+      createdZone:setRadius(radius)
+      createdZone:setCenter(center)
+      createdZone.useZ = useZ
+      Wait(0)
     end
   end)
 end
 
-function CircleZone:new(center, radius, options)
-  options = options or {}
-  local zone = {
-    name = tostring(options.name) or nil,
-    center = center,
-    radius = radius + 0.0,
-    diameter = radius * 2.0,
-    useZ = options.useZ or false,
-    debugPoly = options.debugPoly or false,
-    debugColor = options.debugColor or {0, 255, 0},
-    data = options.data or {},
-    isCircleZone = true,
-  }
-  if zone.useZ then
-    assert(type(zone.center) == "vector3", "Center must be vector3 if useZ is true {center=" .. center .. "}")
-  end
-  setmetatable(zone, self)
-  self.__index = self
-  return zone
-end
-
-function CircleZone:Create(center, radius, options)
-  local zone = CircleZone:new(center, radius, options)
-  _initDebug(zone, options)
-  return zone
-end
-
-function CircleZone:isPointInside(point)
-  if self.destroyed then
-    print("[PolyZone] Warning: Called isPointInside on destroyed zone {name=" .. self.name .. "}")
-    return false
-  end
-
-  local center = self.center
-  local radius = self.radius
-
-  if self.useZ then
-    return #(point - center) < radius
-  else
-    return #(point.xy - center.xy) < radius
-  end
-end
-
-function CircleZone:getRadius()
-  return self.radius
-end
-
-function CircleZone:setRadius(radius)
-  if not radius or radius == self.radius then
-    return
-  end
-  self.radius = radius
-  self.diameter = radius * 2.0
-end
-
-function CircleZone:getCenter()
-  return self.center
-end
-
-function CircleZone:setCenter(center)
-  if not center or center == self.center then
-    return
-  end
-  self.center = center
+function circleFinish()
+  TriggerServerEvent("polyzone:printCircle",
+    {name=createdZone.name, center=createdZone.center, radius=createdZone.radius, useZ=createdZone.useZ})
 end
