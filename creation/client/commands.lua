@@ -57,6 +57,7 @@ end)
 Citizen.CreateThread(function()
   TriggerEvent('chat:addSuggestion', '/pzcreate', 'Starts creation of a zone for PolyZone of one of the available types: circle, box, poly', {
     {name="zoneType", help="Zone Type (required)"},
+    {name="zoneName", help="Zone Name (required)"},
   })
 
   TriggerEvent('chat:addSuggestion', '/pzadd', 'Adds point to zone.', {})
