@@ -1,7 +1,7 @@
 local function handleInput(useZ, heading, length, width, center)
   if not useZ then
     local scaleDelta, headingDelta = 0.2, 5
-    BlockWeaponWheelThisFrame()
+    -- BlockWeaponWheelThisFrame()
 
     if IsDisabledControlPressed(0, 0xDB096B85) then -- ctrl held down
       scaleDelta, headingDelta = 0.05, 1
@@ -44,7 +44,7 @@ function handleZ(minZ, maxZ)
     delta = 0.05
   end
 
-  BlockWeaponWheelThisFrame()
+  -- BlockWeaponWheelThisFrame()
 
   if IsDisabledControlJustPressed(0, 0x3076E97C) then -- scroll wheel down just pressed
 
