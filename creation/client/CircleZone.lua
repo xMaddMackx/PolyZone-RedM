@@ -1,6 +1,6 @@
 local function handleInput(radius, center, useZ)
   local delta = 0.05
-  BlockWeaponWheelThisFrame()
+  -- BlockWeaponWheelThisFrame()
 
   if IsDisabledControlPressed(0, 0xDB096B85) then -- ctrl held down
     delta = 0.01
