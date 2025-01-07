@@ -1,3 +1,6 @@
+# XMMX Development
+This edited version of the FiveM PolyZone resource is fully adapted for RedM, enabling interactive polyzone creation with features like visible lasers, arrow key adjustments, and live placement. Additionally, created zones are automatically saved as a .txt file directly within the PolyZone resource directory, streamlining the workflow for RedM developers.
+
 # PolyZone
 PolyZone is a FiveM mod to define zones of different shapes and test whether a point is inside or outside of the zone
 
